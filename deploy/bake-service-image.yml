@@ -1,0 +1,60 @@
+---
+- name: launch an instance used to bake service image
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: launch instance
+      ec2:
+        region: "{{ region }}"
+        state: present
+        assign_public_ip: yes
+        vpc_subnet_id: "{{ image_vpc_subnet_id }}"
+        group_id: "{{ image_security_group }}"
+        instance_profile_name: "{{ instance_profile_name }}"
+        key_name: "{{ key_name }}"
+        image: "{{ base_image }}"
+        instance_type: t2.micro
+        wait: true
+      register: ec2
+
+    - name: add new instance to host group
+      add_host: hostname={{ ec2.instances | map(attribute='public_dns_name') | first }} groupname=launched
+
+    - name: wait for SSH to come up
+      wait_for: host={{ ec2.instances | map(attribute='public_dns_name') | first }} port=22 delay=10 timeout=320 state=started
+
+- name: configure instance
+  hosts: launched
+  sudo: True
+  gather_facts: False
+  roles:
+    - awsdemo-common
+
+- name: create image and a corresponding launch configuration
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: create image
+      ec2_ami:
+        region: "{{ region }}"
+        instance_id: "{{ ec2.instance_ids | first }}"
+        wait: yes
+        name: "{{ image_name }}"
+      register: image
+    - name: terminate instance that was previously launched
+      ec2:
+        region: "{{ region }}"
+        instance_ids: "{{ ec2.instance_ids | first }}"
+        state: absent
+    - name: create launch configuration
+      ec2_lc:
+        region: "{{ region }}"
+        state: present
+        assign_public_ip: true
+        name: "{{ image_name }}"
+        image_id: "{{ image.image_id }}"
+        instance_type: t2.micro
+        instance_profile_name: "{{ instance_profile_name }}"
+        security_groups: [ "{{ image_security_group }}" ]
+        key_name: "{{ key_name }}"

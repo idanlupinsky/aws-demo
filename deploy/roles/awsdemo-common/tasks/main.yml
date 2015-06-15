@@ -1,0 +1,23 @@
+---
+- name: ensure all packages are up-to-date
+  yum: name=* state=latest
+
+- name: create group awsdemo
+  group: name=awsdemo
+
+- name: create user awsdemo
+  user: name=awsdemo group=awsdemo shell=/bin/bash
+
+- name: create directories
+  file: dest={{ item }} state=directory owner=awsdemo group=awsdemo
+  with_items:
+    - "{{ root_dir }}"
+    - "{{ root_dir }}/scripts"
+    - "{{ root_log_dir }}"
+
+- name: install useful utilities
+  yum: name={{ item }}
+  with_items:
+    - tree
+    - telnet
+    - vim-enhanced

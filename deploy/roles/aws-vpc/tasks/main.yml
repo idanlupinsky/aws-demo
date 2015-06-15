@@ -1,0 +1,29 @@
+---
+- name: create a VPC
+  ec2_vpc:
+    region: "{{ region }}"
+    cidr_block: "{{ vpc.cidr }}"
+    resource_tags: { "Environment": "{{ env }}", "Name": "demo" }
+    internet_gateway: yes
+    subnets: "{{ vpc.subnets }}"
+    route_tables:
+      - subnets: "{{ vpc.web_subnets }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gw: igw
+      - subnets: "{{ vpc.db_subnets }}"
+        routes: []
+    wait: yes
+  register: vpc_result
+
+- name: create image security group
+  ec2_group:
+    region: "{{ region }}"
+    name: "image security group"
+    description: "security group to create images"
+    vpc_id: "{{ vpc_result.vpc_id }}"
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: "0.0.0.0/0"

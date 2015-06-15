@@ -1,0 +1,41 @@
+env: dev
+
+region: eu-west-1
+
+zones:
+  - eu-west-1a
+  - eu-west-1b
+
+vpc:
+  cidr: 10.0.0.0/16
+  subnets:
+    - cidr: 10.0.0.0/24
+      az: eu-west-1a
+      resource_tags: { "Environment": "dev", "Name" : "web-subnet-1a" }
+    - cidr: 10.0.1.0/24
+      az: eu-west-1b
+      resource_tags: { "Environment": "dev", "Name" : "web-subnet-1b" }
+    - cidr: 10.0.2.0/24
+      az: eu-west-1a
+      resource_tags: { "Environment": "dev", "Name" : "db-subnet-1a" }
+    - cidr: 10.0.3.0/24
+      az: eu-west-1b
+      resource_tags: { "Environment": "dev", "Name" : "db-subnet-1b" }
+  web_subnets:
+    - 10.0.0.0/24
+    - 10.0.1.0/24
+  db_subnets:
+    - 10.0.2.0/24
+    - 10.0.3.0/24
+
+base_image: ami-a10897d6
+
+instance_profile_name: app-role
+
+key_name: dev-key
+
+image_vpc_subnet_id: subnet-252b9a7c
+
+image_security_group: sg-24053841
+
+image_name: aws-demo-{{ ansible_date_time.date }}
