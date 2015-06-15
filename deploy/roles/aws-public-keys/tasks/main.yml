@@ -1,0 +1,7 @@
+---
+- name: add demo public key
+  ec2_key:
+    name: "demo-key"
+    region: "{{ region }}"
+    key_material: "{{ item }}"
+  with_file: "keys/demo.pub"

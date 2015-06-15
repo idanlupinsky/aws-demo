@@ -1,0 +1,8 @@
+---
+- name: add public keys
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - aws-public-keys
+
