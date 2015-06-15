@@ -1,5 +1,5 @@
 # aws-demo
-A demo project for running a Java service on AWS.
+This project demonstrates how to deploy and run a Java service using Amazon Web Services (AWS).
 
 # Requirements
 * The deployment playbooks require credentials to be set up via environment variables. For example:
