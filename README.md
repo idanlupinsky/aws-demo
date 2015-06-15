@@ -1,2 +1,4 @@
 # aws-demo
-Demo project for a service running on AWS
+A demo project for running a Java service on AWS.
+
+
