@@ -1,5 +1,5 @@
 ---
-- name: launch an instance used to bake service image
+- name: launch an instance used to bake the service image
   hosts: localhost
   connection: local
   gather_facts: false
