@@ -1,6 +1,15 @@
 ---
+- name: install yum-s3-iam plugin
+  copy: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 's3iam.py', dest: '/usr/lib/yum-plugins/' }
+    - { src: 's3iam.conf', dest: '/etc/yum/pluginconf.d/' }
+
+- name: add awsdemo repo to yum
+  copy: src=awsdemo.repo dest=/etc/yum.repos.d/awsdemo.repo
+
 - name: ensure all packages are up-to-date
-  yum: name=* state=latest
+  yum: name=* disablerepo="awsdemo" state=latest
 
 - name: create group awsdemo
   group: name=awsdemo

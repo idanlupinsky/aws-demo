@@ -1,0 +1,6 @@
+[awsdemo]
+name=awsdemo
+baseurl=https://repo-awsdemo.s3.amazonaws.com/x86_64
+enabled=1
+s3_enabled=1
+gpgcheck=0
