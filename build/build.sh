@@ -38,8 +38,8 @@ info "Building service JAR"
 mvn package
 
 info "Preparing directory structure for packaging"
-mkdir -p dist/opt/${ARTIFACT_NAME}/bin
-cp service/target/${ARTIFACT_NAME}.jar dist/opt/${ARTIFACT_NAME}/bin
+mkdir -p dist/opt/aws-demo/bin
+cp service/target/${ARTIFACT_NAME}.jar dist/opt/aws-demo/bin
 
 info "Packaging artifact"
 cd dist
