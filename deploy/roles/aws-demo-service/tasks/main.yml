@@ -1,19 +1,19 @@
 ---
 - name: install aws-demo service package
   yum: name=aws-demo-service-{{ aws_demo_service_version }} state=present disablerepo="*" enablerepo="awsdemo" update_cache=yes
-  notify: restart aws-demo-service
+  notify: restart aws-demo
 
 - name: copy service configuration
   template: src=aws-demo.yml dest=/etc/aws-demo.yml owner=awsdemo group=awsdemo
-  notify: restart aws-demo-service
+  notify: restart aws-demo
 
 - name: copy start script
   template: src=start-aws-demo.sh dest={{ root_dir }}/scripts/start-aws-demo.sh owner=awsdemo group=awsdemo mode="0744"
-  notify: restart aws-demo-service
+  notify: restart aws-demo
 
 - name: copy service init.d script
-  template: src=aws-demo.init.sh dest=/etc/init.d/aws-demo-service mode="0755"
-  notify: restart aws-demo-service
+  template: src=aws-demo.init.sh dest=/etc/init.d/aws-demo mode="0755"
+  notify: restart aws-demo
 
 - name: set service to start at boot
-  service: name=aws-demo-service enabled=yes
+  service: name=aws-demo enabled=yes

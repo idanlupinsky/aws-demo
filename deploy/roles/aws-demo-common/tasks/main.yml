@@ -1,4 +1,10 @@
 ---
+- name: ensure Java 7 is not installed
+  yum: name=java-1.7.0 state=absent
+
+- name: ensure Java 8 is installed
+  yum: name=java-1.8.0 state=present
+
 - name: install yum-s3-iam plugin
   copy: src={{ item.src }} dest={{ item.dest }}
   with_items:
