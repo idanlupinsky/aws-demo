@@ -43,12 +43,11 @@ cp service/target/${ARTIFACT_NAME}.jar dist/opt/${ARTIFACT_NAME}/bin
 
 info "Packaging artifact"
 cd dist
-fpm \
-	--url "https://github.com/lupinsky/aws-demo" \
+fpm --url "https://github.com/lupinsky/aws-demo" \
 	--maintainer "Idan Lupinsky <lupinsky@gmail.com>" \
 	--vendor "Idan Lupinsky" \
 	--license "MIT License" \
-	--description DESCRIPTION="AWS demo service deployment" \
+	--description "AWS demo service deployment" \
 	--version ${version} \
 	-s dir \
 	-t rpm \
