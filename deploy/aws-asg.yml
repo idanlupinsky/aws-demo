@@ -5,4 +5,5 @@
   gather_facts: false
   roles:
     - aws-vpc
+    - aws-elb
     - aws-asg
