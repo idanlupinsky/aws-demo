@@ -7,11 +7,11 @@
     <parent>
         <groupId>com.aws-demo</groupId>
         <artifactId>aws-demo</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
 
     <artifactId>aws-demo-service</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
 
     <dependencies>
         <dependency>
@@ -43,6 +43,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.3-1100-jdbc41</version>
+        </dependency>
+        <dependency>
+            <groupId>com.damick</groupId>
+            <artifactId>dropwizard-metrics-cloudwatch</artifactId>
+            <version>0.1.4</version>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
