@@ -2,6 +2,8 @@ package com.aws.demo.service;
 
 import com.aws.demo.service.config.AwsDemoConfiguration;
 import com.aws.demo.service.config.annotations.Metrics;
+import com.aws.demo.service.resources.CampaignResource;
+import com.aws.demo.service.resources.HomeResource;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
@@ -30,5 +32,8 @@ public class AwsDemoApplication extends Application<AwsDemoConfiguration> {
                         return typeLiteral.getRawType().isAnnotationPresent(Metrics.class);
                     }
                 }));
+
+        environment.jersey().register(injector.getInstance(HomeResource.class));
+        environment.jersey().register(injector.getInstance(CampaignResource.class));
     }
 }
