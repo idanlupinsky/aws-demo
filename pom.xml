@@ -17,7 +17,6 @@
     </properties>
 
     <modules>
-        <module>deploy</module>
         <module>service</module>
     </modules>
 
