@@ -34,9 +34,9 @@ instance_profile_name: app-role
 
 key_name: dev-key
 
-image_name: aws-demo-3
+image_name: aws-demo-4
 
-launch_configuration_name: aws-demo-3
+launch_configuration_name: aws-demo-4
 
 load_balancer_name: aws-demo
 

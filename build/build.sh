@@ -31,11 +31,14 @@ fi
 
 cd aws-demo
 
-info "Extracting artifact version"
-version=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version|grep -Ev '(^\[|Download)')
-
 info "Building service JAR"
 mvn package
+
+info "Extracting artifact version"
+cd service
+version=$(mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version|grep -Ev '(^\[|Download)')
+echo "Service version: ${version}"
+cd ..
 
 info "Preparing directory structure for packaging"
 mkdir -p dist/opt/aws-demo/bin
