@@ -1,0 +1,20 @@
+- name: create an AWS ELB
+  ec2_elb_lb:
+    region: "{{ region }}"
+    state: present
+    name: "aws-demo"
+    cross_az_load_balancing: true
+    subnets: "{{ vpc_result.subnets | subnetworks(vpc.web_subnets) | map(attribute='id') | list }}"
+    security_group_ids: "{{ elb_sg_result.group_id }}"
+    listeners:
+      - protocol: http
+        load_balancer_port: 80
+        instance_port: 80
+    health_check:
+        ping_protocol: http
+        ping_port: 8081
+        ping_path: "/healthcheck"
+        response_timeout: 5
+        interval: 30
+        unhealthy_threshold: 2
+        healthy_threshold: 4

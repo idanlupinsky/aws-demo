@@ -1,0 +1,8 @@
+---
+- name: create an AWS load balancer
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - aws-vpc
+    - aws-elb

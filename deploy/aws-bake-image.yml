@@ -7,9 +7,9 @@
     - name: launch instance
       ec2:
         region: "{{ region }}"
-        #state: present
-        state: running
-        instance_ids: ['i-c9c77863']
+        state: present
+#        state: running
+#        instance_ids: ['i-c9c77863']
         assign_public_ip: yes
         vpc_subnet_id: "{{ image_vpc_subnet_id }}"
         group_id: "{{ image_security_group }}"
