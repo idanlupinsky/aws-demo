@@ -1,18 +1,35 @@
 ---
+- name: ensure an AWS VPC is set up
+  hosts: all
+  connection: local
+  gather_facts: false
+  roles:
+    - aws-vpc
+
 - name: launch an instance used to bake the service image
   hosts: localhost
   connection: local
   gather_facts: false
   tasks:
+    - name: ensure an image security group exists
+      ec2_group:
+        region: "{{ region }}"
+        name: "image security group"
+        description: "security group to create images"
+        vpc_id: "{{ vpc_result.vpc_id }}"
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: "0.0.0.0/0"
+      register: image_sg_result
     - name: launch instance
       ec2:
         region: "{{ region }}"
         state: present
-#        state: running
-#        instance_ids: ['i-c9c77863']
         assign_public_ip: yes
-        vpc_subnet_id: "{{ image_vpc_subnet_id }}"
-        group_id: "{{ image_security_group }}"
+        vpc_subnet_id: "{{ vpc_result.subnets | subnetworks(vpc.web_subnets) | map(attribute='id') | first }}"
+        group_id: "{{ image_sg_result.group_id }}"
         instance_profile_name: "{{ instance_profile_name }}"
         key_name: "{{ key_name }}"
         image: "{{ base_image }}"
@@ -55,9 +72,9 @@
         region: "{{ region }}"
         state: present
         assign_public_ip: true
-        name: "{{ image_name }}"
+        name: "{{ launch_configuration_name }}"
         image_id: "{{ image.image_id }}"
         instance_type: t2.micro
         instance_profile_name: "{{ instance_profile_name }}"
-        security_groups: [ "{{ image_security_group }}" ]
+        security_groups: [ "{{ web_sg_result.group_id }}" ]
         key_name: "{{ key_name }}"

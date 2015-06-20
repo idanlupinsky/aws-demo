@@ -34,8 +34,10 @@ instance_profile_name: app-role
 
 key_name: dev-key
 
-image_vpc_subnet_id: subnet-252b9a7c
+image_name: aws-demo-3
 
-image_security_group: sg-24053841
+launch_configuration_name: aws-demo-3
 
-image_name: aws-demo-{{ ansible_date_time.date }}
+load_balancer_name: aws-demo
+
+aws_group_name: aws-demo

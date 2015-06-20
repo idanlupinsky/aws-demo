@@ -1,8 +1,8 @@
 ---
-- name: create an AWS VPC and security groups
-  hosts: localhost
+- name: create an AWS ASG
+  hosts: all
   connection: local
   gather_facts: false
   roles:
     - aws-vpc
-
+    - aws-asg

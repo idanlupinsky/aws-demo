@@ -1,5 +1,5 @@
 ---
-- name: create an AWS load balancer
+- name: create an AWS ELB
   hosts: all
   connection: local
   gather_facts: false

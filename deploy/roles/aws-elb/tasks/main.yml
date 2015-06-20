@@ -1,15 +1,28 @@
-- name: create an AWS ELB
+- name: create load-balancer (ELB) security group
+  ec2_group:
+    region: "{{ region }}"
+    name: "load-balancer security group"
+    description: "security group of load-balancer"
+    vpc_id: "{{ vpc_result.vpc_id }}"
+    rules:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: "0.0.0.0/0"
+  register: elb_sg_result
+
+- name: create an a load-balancer (ELB)
   ec2_elb_lb:
     region: "{{ region }}"
     state: present
-    name: "aws-demo"
+    name: "{{ load_balancer_name }}"
     cross_az_load_balancing: true
     subnets: "{{ vpc_result.subnets | subnetworks(vpc.web_subnets) | map(attribute='id') | list }}"
     security_group_ids: "{{ elb_sg_result.group_id }}"
     listeners:
       - protocol: http
         load_balancer_port: 80
-        instance_port: 80
+        instance_port: 8080
     health_check:
         ping_protocol: http
         ping_port: 8081

@@ -16,28 +16,23 @@
     wait: yes
   register: vpc_result
 
-- name: create image security group
+- name: create web security group
   ec2_group:
     region: "{{ region }}"
-    name: "image security group"
-    description: "security group to create images"
+    name: "web security group"
+    description: "security group of web service instances"
     vpc_id: "{{ vpc_result.vpc_id }}"
     rules:
+      - proto: tcp
+        from_port: 8080
+        to_port: 8080
+        cidr_ip: "{{ vpc.cidr }}"
+      - proto: tcp
+        from_port: 8081
+        to_port: 8081
+        cidr_ip: "{{ vpc.cidr }}"
       - proto: tcp
         from_port: 22
         to_port: 22
-        cidr_ip: "0.0.0.0/0"
-  register: image_sg_result
-
-- name: create load-balancer security group
-  ec2_group:
-    region: "{{ region }}"
-    name: "load-balancer security group"
-    description: "security group of load-balancer"
-    vpc_id: "{{ vpc_result.vpc_id }}"
-    rules:
-      - proto: tcp
-        from_port: 80
-        to_port: 80
-        cidr_ip: "0.0.0.0/0"
-  register: elb_sg_result
+        cidr_ip: "{{ vpc.cidr }}"
+  register: web_sg_result

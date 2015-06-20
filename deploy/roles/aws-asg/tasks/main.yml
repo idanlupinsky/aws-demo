@@ -1,0 +1,14 @@
+- debug: msg="{{ vpc_result.subnets | subnetworks(vpc.web_subnets) | map(attribute='id') | list }}"
+
+- name: create an auto-scaling group
+  local_action:
+    module: ec2_asg
+    region: "{{ region }}"
+    name: "{{ aws_group_name }}"
+    state: present
+    desired_capacity: 2
+    min_size: 2
+    max_size: 2
+    launch_config_name: "{{ launch_configuration_name }}"
+    load_balancers: [ "{{ load_balancer_name }}" ]
+    vpc_zone_identifier: "{{ vpc_result.subnets | subnetworks(vpc.web_subnets) | map(attribute='id') | list }}"
