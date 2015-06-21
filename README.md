@@ -1,10 +1,14 @@
 # aws-demo
 
 This project demonstrates how to deploy and run a template Java service using Amazon Web Services (AWS).
+
 In particular, the deployment playbooks and the template service demonstrate how to:
 
 * Create a Virtual Private Cloud (VPC).
-* Create your own Amazon Machine Image (AMI) that is pre-installed with the service and its dependencies. 
+* Maintain a public key used for deployment.
+* Create your own Amazon Machine Image (AMI) that is pre-installed with the service and its dependencies.
+* Create an Elastic Load Balancer (ELB) that will route traffic to service instances across Availability Zones.
+* Create a Launch Configuration and a matching Auto-scaling Group (ASG) that will automatically scale based on load.
 
 ## Requirements
 
@@ -41,4 +45,13 @@ In order to spawn new EC2 instances that can we can ssh to, we need to maintain 
 `$ ansible-playbook -i inventories/dev aws-public-keys.yml`
 
 The public key should then be specified by name when spawning a new EC2 instance. The instance will be set up with the public key as one of the authorized keys allowed to log in as **ec2-user**.
+
+## Creating a custom Amazon Machine Image (AMI) -- "baking an image"
+
+Several base images exist that can be used to spawn new EC2 instances (based on Amazon Linux, CentOS, Ubuntu, etc).
+
+When spawning a new instance we could provision the instance completely on-demand by running a a provisioning script.
+However, in order to save time and ensure our newly spawned instances are completely identical, we will will provision a template instance and save an image (AMI) that we will use later.
+
+The following playbook creates a new EC2 instance only to configure it and save the template image. The instance is then shut down.
 
