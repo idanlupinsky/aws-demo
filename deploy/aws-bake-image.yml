@@ -27,6 +27,8 @@
       ec2:
         region: "{{ region }}"
         state: present
+#        state: running
+#        instance_ids: ['i-xyz']
         assign_public_ip: yes
         vpc_subnet_id: "{{ vpc_result.subnets | subnetworks(vpc.web_subnets) | map(attribute='id') | first }}"
         group_id: "{{ image_sg_result.group_id }}"

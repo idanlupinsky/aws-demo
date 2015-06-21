@@ -1,4 +1,4 @@
-- debug: msg="{{ vpc_result.subnets | subnetworks(vpc.web_subnets) | map(attribute='id') | list }}"
+#- debug: msg="{{ vpc_result.subnets | subnetworks(vpc.web_subnets) | map(attribute='id') | list }}"
 
 - name: create an auto-scaling group
   local_action:
