@@ -46,12 +46,12 @@ In order to spawn new EC2 instances that can we can ssh to, we need to maintain 
 
 The public key should then be specified by name when spawning a new EC2 instance. The instance will be set up with the public key as one of the authorized keys allowed to log in as **ec2-user**.
 
-## Creating a custom Amazon Machine Image (AMI) -- "baking an image"
+## Creating a custom Amazon Machine Image (AMI)
 
 Several base images exist that can be used to spawn new EC2 instances (based on Amazon Linux, CentOS, Ubuntu, etc).
 
 When spawning a new instance we could provision the instance completely on-demand by running a a provisioning script.
-However, in order to save time and ensure our newly spawned instances are completely identical, we will will provision a template instance and save an image (AMI) that we will use later.
+However, in order to save time and ensure our newly spawned instances are completely identical, we will will provision a template instance and save an image (AMI) that we will use later. This process is known as "baking an image".
 
 The following playbook creates a new EC2 instance only to configure it and save the template image. The instance is then shut down.
 
