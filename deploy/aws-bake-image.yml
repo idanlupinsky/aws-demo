@@ -81,6 +81,6 @@
         name: "{{ launch_configuration_name }}"
         image_id: "{{ image.image_id }}"
         instance_type: t2.micro
-        instance_profile_name: "{{ instance_profile_name }}"
+        instance_profile_name: "{{ role_name }}"
         security_groups: [ "{{ web_sg_result.group_id }}" ]
         key_name: "{{ ssh_key_name }}"
