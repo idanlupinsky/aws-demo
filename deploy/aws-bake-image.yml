@@ -13,7 +13,7 @@
   tasks:
     - name: ensure an image security group exists
       ec2_group:
-        region: "{{ region }}"
+        region: "{{ aws_region }}"
         name: "image security group"
         description: "security group to create images"
         vpc_id: "{{ vpc_result.vpc_id }}"
@@ -25,12 +25,12 @@
       register: image_sg_result
     - name: launch instance
       ec2:
-        region: "{{ region }}"
+        region: "{{ aws_region }}"
         assign_public_ip: yes
         vpc_subnet_id: "{{ vpc_result.subnets | subnetworks(vpc.web_subnets) | map(attribute='id') | first }}"
         group_id: "{{ image_sg_result.group_id }}"
-        instance_profile_name: "{{ instance_profile_name }}"
-        key_name: "{{ key_name }}"
+        instance_profile_name: "{{ role_name }}"
+        key_name: "{{ ssh_key_name }}"
         image: "{{ base_image }}"
         instance_type: t2.micro
         wait: true
@@ -63,19 +63,19 @@
   tasks:
     - name: create image
       ec2_ami:
-        region: "{{ region }}"
+        region: "{{ aws_region }}"
         instance_id: "{{ ec2.tagged_instances | map(attribute='id') | first }}"
         wait: yes
         name: "{{ image_name }}"
       register: image
     - name: terminate instance that was previously launched
       ec2:
-        region: "{{ region }}"
+        region: "{{ aws_region }}"
         instance_ids: "{{ ec2.tagged_instances | map(attribute='id') | first }}"
         state: absent
     - name: create launch configuration
       ec2_lc:
-        region: "{{ region }}"
+        region: "{{ aws_region }}"
         state: present
         assign_public_ip: true
         name: "{{ launch_configuration_name }}"
@@ -83,4 +83,4 @@
         instance_type: t2.micro
         instance_profile_name: "{{ instance_profile_name }}"
         security_groups: [ "{{ web_sg_result.group_id }}" ]
-        key_name: "{{ key_name }}"
+        key_name: "{{ ssh_key_name }}"

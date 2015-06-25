@@ -1,0 +1,7 @@
+---
+- name: add IAM role
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - aws-iam-role

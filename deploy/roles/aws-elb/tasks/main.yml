@@ -1,6 +1,6 @@
 - name: create load-balancer (ELB) security group
   ec2_group:
-    region: "{{ region }}"
+    region: "{{ aws_region }}"
     name: "load-balancer security group"
     description: "security group of load-balancer"
     vpc_id: "{{ vpc_result.vpc_id }}"
@@ -13,7 +13,7 @@
 
 - name: create an a load-balancer (ELB)
   ec2_elb_lb:
-    region: "{{ region }}"
+    region: "{{ aws_region }}"
     state: present
     name: "{{ load_balancer_name }}"
     cross_az_load_balancing: true

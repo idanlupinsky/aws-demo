@@ -1,0 +1,6 @@
+- name: create an IAM role
+  iam:
+    region: "{{ aws_region }}"
+    iam_type: role
+    name: "{{ role_name }}"
+    state: present

@@ -17,6 +17,8 @@ The deployment playbooks require credentials to be set up via environment variab
   * `export AWS_ACCESS_KEY_ID=my-access-key`
   * `export AWS_SECRET_ACCESS_KEY=my-secret-key`
 
+Ansible 2.0 is required due to the inclusion of playbooks using newer AWS modules.
+
 To build and deploy the service package you could use the build script or set up a CI job. A few dependencies are required for the build script: maven, fpm, createrepo, and s3cmd.
 
 ## Create a Virtual Private Cloud (VPC)

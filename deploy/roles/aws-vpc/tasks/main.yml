@@ -1,7 +1,7 @@
 ---
 - name: create a VPC
   ec2_vpc:
-    region: "{{ region }}"
+    region: "{{ aws_region }}"
     cidr_block: "{{ vpc.cidr }}"
     resource_tags: { "Environment": "{{ env }}", "Name": "demo" }
     internet_gateway: yes
@@ -18,7 +18,7 @@
 
 - name: create web security group
   ec2_group:
-    region: "{{ region }}"
+    region: "{{ aws_region }}"
     name: "web security group"
     description: "security group of web service instances"
     vpc_id: "{{ vpc_result.vpc_id }}"

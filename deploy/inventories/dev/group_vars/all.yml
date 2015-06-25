@@ -1,6 +1,6 @@
 env: dev
 
-region: eu-west-1
+aws_region: eu-west-1
 
 zones:
   - eu-west-1a
@@ -30,9 +30,9 @@ vpc:
 
 base_image: ami-a10897d6
 
-instance_profile_name: app-role
+role_name: aws-demo-role
 
-key_name: dev-key
+ssh_key_name: dev-key
 
 image_name: aws-demo-5
 
