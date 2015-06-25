@@ -1,5 +1,9 @@
 env: dev
 
+root_dir: /opt/aws-demo
+root_log_dir: /var/log/aws-demo
+run_dir: /var/run
+
 aws_region: eu-west-1
 
 zones:
