@@ -4,3 +4,10 @@
     iam_type: role
     name: "{{ role_name }}"
     state: present
+- name: create an IAM role policy
+  iam_policy:
+    iam_name: "{{ role_name }}"
+    iam_type: role
+    policy_name: admin
+    state: present
+    policy_document: policies/admin_policy.json
