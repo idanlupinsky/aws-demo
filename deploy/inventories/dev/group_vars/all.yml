@@ -36,7 +36,7 @@ base_image: ami-a10897d6
 
 role_name: aws-demo-role
 
-ssh_key_name: dev-key
+ssh_key_name: demo-key
 
 image_name: aws-demo-5
 
