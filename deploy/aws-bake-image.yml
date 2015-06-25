@@ -41,6 +41,8 @@
           Name: image
       register: ec2
 
+    - debug: msg="instance used for baking {{ ec2.tagged_instances | map(attribute='id') | first }}"
+
     - name: add new instance to host group
       add_host: hostname={{ ec2.tagged_instances | map(attribute='public_dns_name') | first }} groupname=launched
 
@@ -62,14 +64,14 @@
     - name: create image
       ec2_ami:
         region: "{{ region }}"
-        instance_id: "{{ ec2.instance_ids | first }}"
+        instance_id: "{{ ec2.tagged_instances | map(attribute='id') | first }}"
         wait: yes
         name: "{{ image_name }}"
       register: image
     - name: terminate instance that was previously launched
       ec2:
         region: "{{ region }}"
-        instance_ids: "{{ ec2.instance_ids | first }}"
+        instance_ids: "{{ ec2.tagged_instances | map(attribute='id') | first }}"
         state: absent
     - name: create launch configuration
       ec2_lc:
