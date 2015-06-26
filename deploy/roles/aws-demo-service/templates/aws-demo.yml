@@ -1,2 +1,8 @@
 server:
   type: default
+metrics:
+  reporters:
+    - type: cloudwatch
+      namespace: aws-demo
+      useRegexFilters: true
+      includes: com.aws.demo.service.resource.*
