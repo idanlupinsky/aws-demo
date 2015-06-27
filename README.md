@@ -34,7 +34,7 @@ The VPC is using the following address range 10.0.0.0/16 and includes the follow
 
 The VPC playbook can be run standalone, as follows:
 
-`$ ansible-playbook -i inventories/dev aws-vpc.yml`
+`$ ansible-playbook aws-vpc.yml -i inventories/dev`
 
 Several other playbooks, such as setting-up an ELB require subnet details. These other playbooks re-run the VPC playbook to ensure the details are registers so that the VPC information can be used in later roles.
 
@@ -44,16 +44,39 @@ In order to spawn new EC2 instances that can we can ssh to, we need to maintain 
 
 [Generate an SSH key-pair]( https://help.github.com/articles/generating-ssh-keys/) and let the playbook copy the public key as follows:
 
-`$ ansible-playbook -i inventories/dev aws-public-keys.yml`
+`$ ansible-playbook aws-public-keys.yml -i inventories/dev`
 
 The public key should then be specified by name when spawning a new EC2 instance. The instance will be set up with the public key as one of the authorized keys allowed to log in as **ec2-user**.
+
+## Create an IAM role
+
+IAM roles can be assigned to EC2 instances. When an EC2 instance assumes a particular IAM role, it could, for example, make API requests.
+
+This allows the developer to avoid maintaining and distributing particular AWS credentials to each instance.
+
+`$ ansible-playbook aws-iam-role.yml -i inventories/dev`
 
 ## Creating a custom Amazon Machine Image (AMI)
 
 Several base images exist that can be used to spawn new EC2 instances (based on Amazon Linux, CentOS, Ubuntu, etc).
 
-When spawning a new instance we could provision the instance completely on-demand by running a a provisioning script.
-However, in order to save time and ensure our newly spawned instances are completely identical, we will will provision a template instance and save an image (AMI) that we will use later. This process is known as "baking an image".
+When spawning a new instance we could provision the instance completely on-demand by running a a provisioning script. Roles such as aws-demo-common and aws-demo-service are used to configure the instance.
+However, in order to save time and ensure our newly spawned instances are completely identical, we will will provision a template instance and save an image (AMI) that we will use later.
+This process is known as "baking an image".
 
 The following playbook creates a new EC2 instance only to configure it and save the template image. The instance is then shut down.
+
+Should the launch configuration be created here?? Would be better to be able to discover the AMI in a separate playbook.
+
+`$ ansible-playbook aws-bake-image.yml -i inventories/dev`
+
+## Create an Elastic Load Balancer (ELB)
+
+An ELB routes traffic between different EC2 instances that span Availability Zones (AZs).
+
+In this example, we create an Internet-facing ELB with a corresponding Security Group that opens port 80 and proxies it to the instance's application port (8080).
+
+In addition, we set up health-checks for each EC2 instances. By using the running service's admin port (8081) and designated health-check endpoint.
+
+`$ ansible-playbook aws-elb.yml -i inventories/dev`
 
