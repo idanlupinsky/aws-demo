@@ -56,7 +56,7 @@ This allows the developer to avoid maintaining and distributing particular AWS c
 
 `$ ansible-playbook aws-iam-role.yml -i inventories/dev`
 
-## Creating a custom Amazon Machine Image (AMI)
+## Creating an Amazon Machine Image (AMI)
 
 Several base images exist that can be used to spawn new EC2 instances (based on Amazon Linux, CentOS, Ubuntu, etc).
 
