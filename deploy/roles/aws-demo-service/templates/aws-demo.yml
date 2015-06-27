@@ -5,4 +5,5 @@ metrics:
     - type: cloudwatch
       namespace: aws-demo
       useRegexFilters: true
-      includes: com.aws.demo.service.resource.*
+      includes:
+        - com.aws.demo.service.resource.*

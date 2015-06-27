@@ -80,3 +80,12 @@ In addition, we set up health-checks for each EC2 instances. By using the runnin
 
 `$ ansible-playbook aws-elb.yml -i inventories/dev`
 
+## Create an Auto Scaling Group (ASG)
+
+An ASG facilitates creation of EC2 instances spanning Availability Zones and ensures that the desired instance count is available.
+
+The group created by this playbook is associated with a corresponding ELB which routes traffic to each instance within the group.  
+
+When scaling policies are defined, the number of instances can change based on demand.
+
+`$ ansible-playbook aws-asg.yml -i inventories/dev`
